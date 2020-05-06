@@ -58,7 +58,7 @@ android {
 	
 	applicationVariants.all { variant ->
 		variant.outputs.all { output ->
-			outputFileName = String.format("%s-v%s-%s.aar", OUT_NAME, rootProject.ext.version, variant.buildType.name)
+			outputFileName = String.format("%s-v%s-%s.apk", OUT_NAME, rootProject.ext.version, variant.buildType.name)
 		}
 	}
 }
