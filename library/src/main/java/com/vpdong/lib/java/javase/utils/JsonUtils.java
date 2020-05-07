@@ -25,20 +25,20 @@ public class JsonUtils {
 		}
 	}
 	
-	public static <T> T fromJson(File json, Class<T> clazz) {
+	public static <T> T fromJson(File json, Type resp) {
 		try {
 			if (json == null || !json.exists() || !json.isFile()) return null;
 			String content = FileUtils.getContent(json);
-			return fromJson(content, clazz);
+			return fromJson(content, resp);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	public static <T> T fromJson(byte[] json, Class<T> clazz) {
+	public static <T> T fromJson(byte[] json, Type resp) {
 		try {
-			return fromJson(new String(json), clazz);
+			return fromJson(new String(json), resp);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -46,46 +46,21 @@ public class JsonUtils {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <T> T fromJson(String json, Class<T> clazz) {
+	public static <T> T fromJson(String json, Type resp) {
 		try {
-			// return GSON.fromJson(json, clazz);
-			return (T) RefUtils.invokeMethod(GSON, "fromJson",
-					new RefUtils.Param(String.class, json),
-					new RefUtils.Param(clazz, clazz));
-		} catch (Exception e) {
-			e.printStackTrace();
+			if (resp instanceof Class) {
+				// return GSON.fromJson(json, clazz);
+				return (T) RefUtils.invokeMethod(GSON, "fromJson",
+						new RefUtils.Param(String.class, json),
+						new RefUtils.Param((Class<T>) resp, resp));
+			} else if (resp != null) {
+				// Type type = new TypeToken<List<String>>() {}.getType();
+				// return GSON.fromJson(json, type);
+				return (T) RefUtils.invokeMethod(GSON, "fromJson",
+						new RefUtils.Param(String.class, json),
+						new RefUtils.Param(Type.class, resp));
+			}
 			return null;
-		}
-	}
-	
-	public static <T> T fromJson(File json, Type type) {
-		try {
-			if (json == null || !json.exists() || !json.isFile()) return null;
-			String content = FileUtils.getContent(json);
-			return fromJson(content, type);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	public static <T> T fromJson(byte[] json, Type type) {
-		try {
-			return fromJson(new String(json), type);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public static <T> T fromJson(String json, Type type) {
-		try {
-			// Type type = new TypeToken<List<String>>() {}.getType;
-			// return GSON.fromJson(json, type);
-			return (T) RefUtils.invokeMethod(GSON, "fromJson",
-					new RefUtils.Param(String.class, json),
-					new RefUtils.Param(Type.class, type));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

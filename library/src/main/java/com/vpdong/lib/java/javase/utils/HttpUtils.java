@@ -2,6 +2,7 @@ package com.vpdong.lib.java.javase.utils;
 
 import javax.net.ssl.*;
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -16,7 +17,7 @@ public class HttpUtils {
 		throw new IllegalAccessException("can not to init instance for http utils");
 	}
 	
-	public static <T> T doGetJson(String url, final Map<String, String> params, Map<String, String> headers, final Class<T> clazz) {
+	public static <T> T doGetJson(String url, final Map<String, String> params, Map<String, String> headers, final Type type) {
 		if (url == null) throw new IllegalArgumentException("url can not be null");
 		if (params != null) {
 			url = url.endsWith("?") ? url : String.format("%s?", url);
@@ -34,7 +35,7 @@ public class HttpUtils {
 					for (String line; (line = br.readLine()) != null; ) {
 						sb.append(line);
 					}
-					return JsonUtils.fromJson(sb.toString(), clazz);
+					return JsonUtils.fromJson(sb.toString(), type);
 				} catch (Exception e) {
 					return onFailed(-2, e.getMessage());
 				}
@@ -57,7 +58,7 @@ public class HttpUtils {
 		});
 	}
 	
-	public static <T> T doPostJson(String url, Map<String, String> headers, final Object body, final Class<T> clazz) {
+	public static <T> T doPostJson(String url, Map<String, String> headers, final Object body, final Type type) {
 		if (url == null) throw new IllegalArgumentException("url can not be null");
 		return doHttp(url, "POST", headers, new HttpProcessor<T>() {
 			@Override
@@ -82,7 +83,7 @@ public class HttpUtils {
 					for (String line; (line = br.readLine()) != null; ) {
 						sb.append(line);
 					}
-					return JsonUtils.fromJson(sb.toString(), clazz);
+					return JsonUtils.fromJson(sb.toString(), type);
 				} catch (Exception e) {
 					return onFailed(-2, e.getMessage());
 				}
@@ -90,7 +91,7 @@ public class HttpUtils {
 		});
 	}
 	
-	public static <T> T doPostForm(String url, Map<String, String> headers, final Map<String, Object> body, final Class<T> clazz) {
+	public static <T> T doPostForm(String url, Map<String, String> headers, final Map<String, Object> body, final Type type) {
 		if (url == null) throw new IllegalArgumentException("url or body can not be null");
 		final String boundary = "------------------------" + System.currentTimeMillis();
 		if (headers == null) headers = new LinkedHashMap<>();
@@ -136,7 +137,7 @@ public class HttpUtils {
 					for (String line; (line = br.readLine()) != null; ) {
 						sb.append(line);
 					}
-					return JsonUtils.fromJson(sb.toString(), clazz);
+					return JsonUtils.fromJson(sb.toString(), type);
 				} catch (Exception e) {
 					return onFailed(-2, e.getMessage());
 				}
