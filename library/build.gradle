@@ -77,7 +77,7 @@ task assembleJavase(type: Jar, dependsOn: "assembleDebug", group: "build") {
 	// 如未设置，则默认为build/libs
 	destinationDir = file("$projectDir/build/outputs/jar")
 	from("build/intermediates/classes/debug")
-	include("com/vpdong/lib/java/javase/**/*.class")
+	include("com/vpdong/lib/java/javase/utils/**/*.class")
 }
 
 preBuild.dependsOn(clean)

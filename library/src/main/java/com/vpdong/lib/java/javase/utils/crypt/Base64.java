@@ -1,4 +1,4 @@
-package com.vpdong.lib.java.javase.utils.extend;
+package com.vpdong.lib.java.javase.utils.crypt;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;

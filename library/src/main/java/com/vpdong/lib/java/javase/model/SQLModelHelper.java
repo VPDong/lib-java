@@ -36,7 +36,7 @@ public final class SQLModelHelper {
 	public static ConnectionSource getSource(String path) throws Exception {
 		String url = String.format("jdbc:sqlite:%s", path.trim());
 		return (ConnectionSource) RefUtils.newInstance("com.j256.ormlite.jdbc.JdbcConnectionSource",
-				new Class[]{String.class}, url);
+				new RefUtils.Param(String.class, url));
 	}
 	
 	public static void closeSource(ConnectionSource source) throws Exception {

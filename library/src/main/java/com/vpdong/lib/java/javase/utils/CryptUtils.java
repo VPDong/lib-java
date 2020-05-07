@@ -1,6 +1,6 @@
 package com.vpdong.lib.java.javase.utils;
 
-import com.vpdong.lib.java.javase.utils.extend.Base64;
+import com.vpdong.lib.java.javase.utils.crypt.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

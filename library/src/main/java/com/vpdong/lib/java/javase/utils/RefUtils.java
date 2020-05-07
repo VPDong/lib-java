@@ -10,12 +10,16 @@ public class RefUtils {
 		throw new IllegalAccessException("can not to init instance for ref utils");
 	}
 	
-	public static Object newInstance(String classStr, Class<?>[] paramTypes, Object... paramVals) {
+	public static Object newInstance(String classStr, Param... params) {
 		try {
 			Class<?> clazz = Class.forName(classStr);
-			Constructor<?> constructor = clazz.getDeclaredConstructor(paramTypes);
-			constructor.setAccessible(true);
-			return constructor.newInstance(paramVals);
+			if (params == null || params.length == 0) {
+				return clazz.newInstance();
+			} else {
+				Constructor<?> constructor = clazz.getDeclaredConstructor(Param.getTypes(params));
+				constructor.setAccessible(true);
+				return constructor.newInstance(Param.getValues(params));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -34,19 +38,18 @@ public class RefUtils {
 				|| field.isSynthetic();
 	}
 	
-	public static Object invokeMethod(Object object, String methodName,
-	                                  Class<?>[] argsTypes, Object... argsValues) {
+	public static Object invokeMethod(Object object, String methodName, Param... params) {
 		if (object == null || methodName == null) return null;
 		try {
 			for (Class<?> clazz = object.getClass(); clazz != null; clazz = clazz.getSuperclass()) {
 				Method method = null;
 				try {// getDeclaredMethod获取的是类自身声明的所有方法，包含public、protected和private
-					method = clazz.getDeclaredMethod(methodName, argsTypes);
+					method = clazz.getDeclaredMethod(methodName, Param.getTypes(params));
 				} catch (NoSuchMethodException ignored) {
 					// ignored
 				}
 				if (method == null) continue;
-				return method.invoke(object, argsValues);
+				return method.invoke(object, Param.getValues(params));
 			}
 			return null;
 		} catch (Exception e) {
@@ -91,6 +94,34 @@ public class RefUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	public static class Param {
+		private Class<?> type;
+		private Object value;
+		
+		public Param(Class<?> type, Object value) {
+			this.type = type;
+			this.value = value;
+		}
+		
+		private static Class<?>[] getTypes(Param... params) {
+			if (params == null || params.length == 0) return null;
+			Class<?>[] types = new Class[params.length];
+			for (int i = 0; i < params.length; i++) {
+				types[i] = params[i].type;
+			}
+			return types;
+		}
+		
+		private static Object[] getValues(Param... params) {
+			if (params == null || params.length == 0) return null;
+			Object[] values = new Object[params.length];
+			for (int i = 0; i < params.length; i++) {
+				values[i] = params[i].value;
+			}
+			return values;
 		}
 	}
 }

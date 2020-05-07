@@ -1,6 +1,5 @@
 package com.vpdong.lib.java.javase.model;
 
-import com.google.gson.reflect.TypeToken;
 import com.vpdong.lib.java.javase.utils.FileUtils;
 import com.vpdong.lib.java.javase.utils.JsonUtils;
 import okhttp3.OkHttpClient;
@@ -13,6 +12,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.http.*;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -93,7 +93,7 @@ public final class HttpModelHelper {
 		}
 		
 		@SuppressWarnings("unchecked")
-		public <T> T get(String url, Map<String, String> params, TypeToken<T> type) {
+		public <T> T get(String url, Map<String, String> params, Type type) {
 			if (url == null || type == null) return null;
 			try {
 				params = params == null ? new HashMap<String,String>() : params;
@@ -106,7 +106,7 @@ public final class HttpModelHelper {
 		}
 		
 		@SuppressWarnings("unchecked")
-		public <T> T post(String url, Object body, TypeToken<T> type) {
+		public <T> T post(String url, Object body, Type type) {
 			if (url == null || type == null) return null;
 			try {
 				body = body == null ? new Object() : body;
