@@ -18,22 +18,22 @@ public abstract class MVPActivity<P extends MVPPresenter> extends AppCompatActiv
 	private final BehaviorSubject<RxLifeEvent> mLifecycleSubject = BehaviorSubject.create();
 	private P mPresenter;
 	private Handler mHandler;
-
+	
 	@Override
 	public final Observable<RxLifeEvent> life() {
 		return mLifecycleSubject.hide();
 	}
-
+	
 	@Override
 	public final <T> RxLifeTransformer<T> bindToLife() {
 		return RxLife.bind(mLifecycleSubject);
 	}
-
+	
 	@Override
 	public final <T> RxLifeTransformer<T> bindUntilEvent(RxLifeEvent event) {
 		return RxLife.bindUntilEvent(mLifecycleSubject, event);
 	}
-
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,31 +45,31 @@ public abstract class MVPActivity<P extends MVPPresenter> extends AppCompatActiv
 		mHandler = new Handler(getMainLooper());
 		mLifecycleSubject.onNext(RxLifeEvent.CREATE);
 	}
-
+	
 	@Override
 	protected void onStart() {
 		super.onStart();
 		mLifecycleSubject.onNext(RxLifeEvent.START);
 	}
-
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
 		mLifecycleSubject.onNext(RxLifeEvent.RESUME);
 	}
-
+	
 	@Override
 	protected void onPause() {
 		mLifecycleSubject.onNext(RxLifeEvent.PAUSE);
 		super.onPause();
 	}
-
+	
 	@Override
 	protected void onStop() {
 		mLifecycleSubject.onNext(RxLifeEvent.STOP);
 		super.onStop();
 	}
-
+	
 	@Override
 	protected void onDestroy() {
 		mLifecycleSubject.onNext(RxLifeEvent.DESTROY);
@@ -79,26 +79,26 @@ public abstract class MVPActivity<P extends MVPPresenter> extends AppCompatActiv
 		}
 		super.onDestroy();
 	}
-
+	
 	@Override
 	public Context getAppContext() {
 		return getApplicationContext();
 	}
-
+	
 	public P getPresenter() {
 		return mPresenter;
 	}
-
+	
 	@Override
 	public Handler getHandler() {
 		return mHandler;
 	}
-
+	
 	@Override
 	public void showMsg(String msg) {
 		// ExtUtils.Toast.show(getApplicationContext(), msg);
 	}
-
+	
 	@Override
 	public void showErr(String msg) {
 		showMsg(msg);

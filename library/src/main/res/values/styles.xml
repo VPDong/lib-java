@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="LibTheme" parent="Theme.AppCompat.Light.NoActionBar">
+		<item name="colorAccent">@color/colorAccent</item>
+		<item name="colorPrimary">@color/colorPrimary</item>
+		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+	</style>
+	<style name="LibTheme.FullScreen" parent="LibTheme">
+		<item name="windowNoTitle">true</item>
+		<item name="android:windowFullscreen">true</item>
+	</style>
+	<style name="LibTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+	<style name="LibTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+</resources>

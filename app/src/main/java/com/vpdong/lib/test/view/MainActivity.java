@@ -9,5 +9,16 @@ public class MainActivity extends MVPActivity<MainPresenter> {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		initView();
+	}
+	
+	private void initView() {
+		getHandler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				HomeActivity.start(MainActivity.this);
+				finish();
+			}
+		}, 2000);
 	}
 }
