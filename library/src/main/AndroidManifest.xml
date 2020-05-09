@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.vpdong.lib.java">
+          package="com.google.library">
 	
 	<!--https://developer.android.com/guide/topics/security/permissions-->
 	<uses-permission android:name="android.permission.INTERNET"/>
@@ -11,15 +11,15 @@
 	             android:hardwareAccelerated="true"
 	             android:networkSecurityConfig="@xml/lib_network_config">
 		
-		<receiver android:name=".android.comp.ApkReceiver">
+		<receiver android:name="com.google.library.android.comp.ApkReceiver">
 			<intent-filter>
 				<action android:name="android.intent.action.PACKAGE_ADDED"/>
 				<action android:name="android.intent.action.PACKAGE_REMOVED"/>
 			</intent-filter>
 		</receiver>
 		
-		<provider android:name=".android.comp.FileProvider"
-		          android:authorities="com.vpdong.lib.java.fileProvider"
+		<provider android:name="com.google.library.android.comp.FileProvider"
+		          android:authorities="com.google.library.fileProvider"
 		          android:grantUriPermissions="true"
 		          android:exported="false">
 			<meta-data

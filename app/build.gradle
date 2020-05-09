@@ -4,7 +4,7 @@ buildscript {
 		maven { url 'https://maven.aliyun.com/repository/google' }
 	}
 	dependencies {
-		classpath 'com.android.tools.build:gradle:3.1.0'
+		classpath 'com.android.tools.build:gradle:3.2.1'
 	}
 }
 
@@ -34,9 +34,9 @@ android {
 		minSdkVersion 21
 		targetSdkVersion 28
 		
-		applicationId "com.vpdong.lib.test"
+		applicationId "com.vpdong.app.test"
 		
-		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 	}
 	
 	buildTypes {
@@ -69,6 +69,6 @@ dependencies {
 	compile project(":library")
 	
 	testCompile 'junit:junit:4.12'
-	androidTestCompile 'com.android.support.test:runner:1.0.2'
-	androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.2'
+	androidTestCompile 'androidx.test:runner:1.2.0'
+	androidTestCompile 'androidx.test.espresso:espresso-core:3.2.0'
 }
