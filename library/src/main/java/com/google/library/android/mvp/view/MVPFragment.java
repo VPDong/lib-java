@@ -45,6 +45,7 @@ public abstract class MVPFragment<P extends MVPPresenter> extends Fragment
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(false);
 		mPresenter = (P) MVPPresenter.newPresenter(getClass());
 		if (mPresenter != null) {
 			mPresenter.onAttach(this, this);
