@@ -15,7 +15,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.library.android.mvp.view.MVPFragment;
 import com.vpdong.app.test.R;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,31 +38,6 @@ public class NewsFragment extends MVPFragment<NewsPresenter> {
 		mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 		mRecyclerView.addItemDecoration(new DividerItemDecoration(getAppContext(), DividerItemDecoration.VERTICAL));
 		// https://blog.csdn.net/whdalive/article/details/80539976
-		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-			@Override
-			public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-				super.onScrollStateChanged(recyclerView, newState);
-				//判断是否滑动到底
-				if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == mMyAdapter.getItemCount()) {
-					mMyAdapter.changeMoreStatus(MyAdapter.LOADING_MORE);
-					//模拟加载数据
-					mHandler.postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							List<String> newDatas = new ArrayList<String>();
-							for (int i = 0; i < 5; i++) {
-								int index = i + 1;
-								newDatas.add("more item" + index);
-							}
-							mMyAdapter.addMoreItem(newDatas);
-							
-							//此时显示 正在加载中
-							mMyAdapter.changeMoreStatus(MyAdapter.PULLUP_LOAD_MORE);
-						}
-					}, 2500);
-				}
-			}
-		});
 		mRefreshLayout = root.findViewById(R.id.sr);
 		mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override

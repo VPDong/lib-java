@@ -5,14 +5,14 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import androidx.viewpager.widget.ViewPager;
 
-public class LibViewPager extends ViewPager {
+public class ScrollViewPager extends ViewPager {
 	private boolean isCanScroll = true;
 	
-	public LibViewPager(Context context) {
+	public ScrollViewPager(Context context) {
 		super(context);
 	}
 	
-	public LibViewPager(Context context, AttributeSet attrs) {
+	public ScrollViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 	

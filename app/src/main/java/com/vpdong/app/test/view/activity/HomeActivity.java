@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
 import com.google.library.android.mvp.view.MVPActivity;
-import com.google.library.android.view.LibViewPager;
+import com.google.library.android.view.ScrollViewPager;
 import com.vpdong.app.test.R;
 import com.vpdong.app.test.view.fragment.NewsFragment;
 import com.vpdong.app.test.view.fragment.UserFragment;
@@ -23,7 +23,7 @@ public class HomeActivity extends MVPActivity<HomePresenter> {
 	}
 	
 	private PagerAdapter mPagerAdapter;
-	private LibViewPager mViewPager;
+	private ScrollViewPager mViewPager;
 	private TabLayout mTabLayout;
 	
 	@Override
