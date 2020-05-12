@@ -24,7 +24,7 @@ public class VideoFragment extends MVPFragment<VideoPresenter> {
 	@Override
 	public View getTabView(Context context) {
 		if (mTabView == null) {
-			mTabView = LayoutInflater.from(context).inflate(R.layout.lib_item_tab, null);
+			mTabView = LayoutInflater.from(context).inflate(R.layout.item_tab, null);
 			ImageView iv = mTabView.findViewById(R.id.iv_tab);
 			iv.setImageResource(R.drawable.icn_tab_video_selector);
 			TextView tv = mTabView.findViewById(R.id.tv_tab);

@@ -57,7 +57,7 @@ public final class HttpModelHelper {
 				.baseUrl(url);
 	}
 	
-	public static String initUrl(String url) throws Exception {
+	public static String initUrl(String url) {
 		if (url == null) throw new Error("url can not be null");
 		url = url.startsWith("http") ? url.trim() : String.format("http://%s", url.trim());
 		if (Pattern.matches("(https?)://[a-zA-Za-z0-9&@#/%+\\-?=~_|!:,.;]+[a-zA-Z0-9&@#/%+\\-=~_|]", url)) {
@@ -81,7 +81,7 @@ public final class HttpModelHelper {
 			return INSTANCE;
 		}
 		
-		private final HttpModelComApi mApi;
+		private final HttpModelComAPI mAPI;
 		
 		private HttpModelCom() {
 			String host = "http://127.0.0.1";
@@ -89,15 +89,14 @@ public final class HttpModelHelper {
 			// todo 设置clientBuilder其他的属性
 			Retrofit.Builder retrofitBuilder = HttpModelHelper.buildRetrofit(host, clientBuilder.build());
 			// todo 设置retrofitBuilder其他的属性
-			mApi = retrofitBuilder.build().create(HttpModelComApi.class);
+			mAPI = retrofitBuilder.build().create(HttpModelComAPI.class);
 		}
 		
-		@SuppressWarnings("unchecked")
-		public <T> T get(String url, Map<String, String> params, Type type) {
+		public <T> T doGetJson(String url, Map<String, String> params, Type type) {
 			if (url == null || type == null) return null;
 			try {
-				params = params == null ? new HashMap<String,String>() : params;
-				String resp = mApi.get(initUrl(url), params).execute().body();
+				params = params == null ? new HashMap<String, String>() : params;
+				String resp = mAPI.doGetJson(initUrl(url), params).execute().body();
 				return JsonUtils.fromJson(resp, type);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -105,27 +104,9 @@ public final class HttpModelHelper {
 			}
 		}
 		
-		@SuppressWarnings("unchecked")
-		public <T> T post(String url, Object body, Type type) {
-			if (url == null || type == null) return null;
-			try {
-				body = body == null ? new Object() : body;
-				String resp;
-				if (body instanceof Map) {
-					resp = mApi.postForm(initUrl(url), (Map<String, String>) body).execute().body();
-				} else {
-					resp = mApi.postJson(initUrl(url), body).execute().body();
-				}
-				return JsonUtils.fromJson(resp, type);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-		}
-		
-		public boolean down(String url, Map<String, String> params, File downDir) {
+		public boolean doGetFile(String url, Map<String, String> params, File downDir) {
 			if (url == null) return false;
-			try (ResponseBody response = mApi.down(initUrl(url), params).execute().body()) {
+			try (ResponseBody response = mAPI.doGetFile(initUrl(url), params).execute().body()) {
 				if (response == null) return false;
 				
 				FileUtils.toDelete(downDir, true);
@@ -136,23 +117,45 @@ public final class HttpModelHelper {
 			}
 		}
 		
+		public <T> T doPostJson(String url, Object body, Type type) {
+			if (url == null || type == null) return null;
+			try {
+				String resp = mAPI.doPostJson(initUrl(url), body).execute().body();
+				return JsonUtils.fromJson(resp, type);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		
+		public <T> T doPostForm(String url, Map<String, Object> body, Type type) {
+			if (url == null || type == null) return null;
+			try {
+				String resp = mAPI.doPostForm(initUrl(url), body).execute().body();
+				return JsonUtils.fromJson(resp, type);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		
 		/**
 		 * 一个简单的接口配置
 		 */
-		public interface HttpModelComApi {
+		public interface HttpModelComAPI {
 			@GET
-			Call<String> get(@Url String url, @QueryMap Map<String, String> params);
-			
-			@POST
-			Call<String> postJson(@Url String url, @Body Object body);
-			
-			@POST
-			@FormUrlEncoded
-			Call<String> postForm(@Url String url, @FieldMap Map<String, String> body);
+			Call<String> doGetJson(@Url String url, @QueryMap Map<String, String> params);
 			
 			@GET
 			@Streaming
-			Call<ResponseBody> down(@Url String url, @QueryMap Map<String, String> params);
+			Call<ResponseBody> doGetFile(@Url String url, @QueryMap Map<String, String> params);
+			
+			@POST
+			Call<String> doPostJson(@Url String url, @Body Object body);
+			
+			@POST
+			@FormUrlEncoded
+			Call<String> doPostForm(@Url String url, @FieldMap Map<String, Object> body);
 		}
 	}
 }

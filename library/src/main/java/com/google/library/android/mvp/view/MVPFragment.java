@@ -131,6 +131,7 @@ public abstract class MVPFragment<P extends MVPPresenter> extends Fragment
 	
 	public abstract void initView(View root);
 	
+	// 在创建tab_layout时进行调用
 	public View getTabView(Context context) {
 		return null;
 	}
