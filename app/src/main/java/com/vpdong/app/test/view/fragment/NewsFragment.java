@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.library.android.mvp.view.MVPFragment;
 import com.google.library.android.view.RefreshLayout;
 import com.vpdong.app.test.R;
@@ -24,6 +23,8 @@ public class NewsFragment extends MVPFragment<NewsPresenter> {
 	private RecyclerView mRecyclerView;
 	private RefreshLayout mRefreshLayout;
 	
+	private List<String> mData = new LinkedList<>();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,17 +33,17 @@ public class NewsFragment extends MVPFragment<NewsPresenter> {
 	
 	@Override
 	public void initView(View root) {
-		mAdapter = new RvAdapter(getAppContext(), null);
+		mAdapter = new RvAdapter(getAppContext(), mData);
 		mRecyclerView = root.findViewById(R.id.rv);
 		mRecyclerView.setAdapter(mAdapter);
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(getAppContext()));
 		mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 		mRecyclerView.addItemDecoration(new DividerItemDecoration(getAppContext(), DividerItemDecoration.VERTICAL));
 		mRefreshLayout = root.findViewById(R.id.sr);
-		mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+		mRefreshLayout.setOnPullListener(new RefreshLayout.OnPullListener() {
 			@Override
-			public void onRefresh() {
-				mRefreshLayout.setRefreshing(true);
+			public void onPull() {
+				mRefreshLayout.setPulling(true);
 				mAdapter.getData().clear();
 				for (int i = 0; i < 20; i++) {
 					mAdapter.getData().add("add" + i);
@@ -50,9 +51,15 @@ public class NewsFragment extends MVPFragment<NewsPresenter> {
 				getHandler().postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						mRefreshLayout.setRefreshing(false);
+						mRefreshLayout.setPulling(false);
 					}
 				}, 1000);
+			}
+		});
+		mRefreshLayout.setOnPushListener(new RefreshLayout.OnPushListener() {
+			@Override
+			public void onPush() {
+				// todo
 			}
 		});
 	}
@@ -77,7 +84,7 @@ public class NewsFragment extends MVPFragment<NewsPresenter> {
 		public RvAdapter(Context context, List<String> data) {
 			this.mContext = context;
 			this.mInflater = LayoutInflater.from(mContext);
-			this.mData = new LinkedList<>();
+			this.mData = data;
 			for (int i = 0; i < 20; i++) {
 				mData.add("item" + i);
 			}
