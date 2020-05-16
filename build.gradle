@@ -12,6 +12,6 @@ allprojects {
 }
 
 ext {
-	group = "com.vpdong.lib"
+	group = "com.google.library"
 	version = "0.0.1"
 }

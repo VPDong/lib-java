@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.library.android.mvp.view.MVPFragment;
+import com.google.library.android.view.RefreshLayout;
 import com.vpdong.app.test.R;
 
 import java.util.LinkedList;
@@ -21,7 +22,7 @@ import java.util.List;
 public class NewsFragment extends MVPFragment<NewsPresenter> {
 	private RvAdapter mAdapter;
 	private RecyclerView mRecyclerView;
-	private SwipeRefreshLayout mRefreshLayout;
+	private RefreshLayout mRefreshLayout;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,6 @@ public class NewsFragment extends MVPFragment<NewsPresenter> {
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(getAppContext()));
 		mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 		mRecyclerView.addItemDecoration(new DividerItemDecoration(getAppContext(), DividerItemDecoration.VERTICAL));
-		// https://blog.csdn.net/whdalive/article/details/80539976
 		mRefreshLayout = root.findViewById(R.id.sr);
 		mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
