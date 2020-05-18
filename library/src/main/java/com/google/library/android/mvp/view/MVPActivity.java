@@ -58,6 +58,10 @@ public abstract class MVPActivity<P extends MVPPresenter> extends AppCompatActiv
 		initView();
 	}
 	
+	public void initView() {
+		//nothing
+	}
+	
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -115,8 +119,6 @@ public abstract class MVPActivity<P extends MVPPresenter> extends AppCompatActiv
 	public void showErr(String msg) {
 		showMsg(msg);
 	}
-	
-	public abstract void initView();
 	
 	protected class PagerAdapter extends FragmentPagerAdapter {
 		private final FragmentManager fragmentManager;

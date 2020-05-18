@@ -61,6 +61,14 @@ public abstract class MVPFragment<P extends MVPPresenter> extends Fragment
 		return view;
 	}
 	
+	protected void setContentView(int id) {
+		mViewID = id;
+	}
+	
+	public void initView(View root) {
+		// nothing
+	}
+	
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -100,10 +108,6 @@ public abstract class MVPFragment<P extends MVPPresenter> extends Fragment
 		super.onDestroy();
 	}
 	
-	protected void setContentView(int id) {
-		mViewID = id;
-	}
-	
 	@Override
 	public Context getAppContext() {
 		Context context = getContext();
@@ -128,8 +132,6 @@ public abstract class MVPFragment<P extends MVPPresenter> extends Fragment
 	public void showErr(String msg) {
 		showMsg(msg);
 	}
-	
-	public abstract void initView(View root);
 	
 	// 在创建tab_layout时进行调用
 	public View getTabView(Context context) {
