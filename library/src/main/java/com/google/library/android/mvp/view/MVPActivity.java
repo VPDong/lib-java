@@ -2,7 +2,6 @@ package com.google.library.android.mvp.view;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -23,7 +22,6 @@ public abstract class MVPActivity<P extends MVPPresenter> extends AppCompatActiv
 		implements MVPView, RxLifeProvider<RxLifeEvent> {
 	private final BehaviorSubject<RxLifeEvent> mLifecycleSubject = BehaviorSubject.create();
 	private P mPresenter;
-	private Handler mHandler;
 	
 	@Override
 	public final Observable<RxLifeEvent> life() {
@@ -48,7 +46,6 @@ public abstract class MVPActivity<P extends MVPPresenter> extends AppCompatActiv
 		if (mPresenter != null) {
 			mPresenter.onAttach(this, this);
 		}
-		mHandler = new Handler(getMainLooper());
 		mLifecycleSubject.onNext(RxLifeEvent.CREATE);
 	}
 	
@@ -103,11 +100,6 @@ public abstract class MVPActivity<P extends MVPPresenter> extends AppCompatActiv
 	
 	public P getPresenter() {
 		return mPresenter;
-	}
-	
-	@Override
-	public Handler getHandler() {
-		return mHandler;
 	}
 	
 	@Override

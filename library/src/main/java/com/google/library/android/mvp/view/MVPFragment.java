@@ -22,7 +22,6 @@ public abstract class MVPFragment<P extends MVPPresenter> extends Fragment
 		implements MVPView, RxLifeProvider<RxLifeEvent> {
 	private final BehaviorSubject<RxLifeEvent> mLifecycleSubject = BehaviorSubject.create();
 	private P mPresenter;
-	private Handler mHandler;
 	private int mViewID;
 	protected View mTabView;
 	
@@ -50,7 +49,6 @@ public abstract class MVPFragment<P extends MVPPresenter> extends Fragment
 		if (mPresenter != null) {
 			mPresenter.onAttach(this, this);
 		}
-		mHandler = new Handler(getMainLooper());
 		mLifecycleSubject.onNext(RxLifeEvent.CREATE);
 	}
 	
@@ -116,11 +114,6 @@ public abstract class MVPFragment<P extends MVPPresenter> extends Fragment
 	
 	public P getPresenter() {
 		return mPresenter;
-	}
-	
-	@Override
-	public Handler getHandler() {
-		return mHandler;
 	}
 	
 	@Override

@@ -1,12 +1,9 @@
 package com.google.library.android.mvp;
 
 import android.content.Context;
-import android.os.Handler;
 
 public interface MVPView {
 	Context getAppContext();
-
-	Handler getHandler();
 
 	void showMsg(String msg);
 
