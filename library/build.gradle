@@ -56,6 +56,7 @@ dependencies {
 	
 	compile 'com.j256.ormlite:ormlite-android:5.1'
 	
+	compile 'com.squareup.picasso:picasso:2.5.2'
 	compile 'com.squareup.retrofit2:retrofit:2.5.0'
 	compile 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
 	compile 'com.squareup.retrofit2:converter-scalars:2.5.0'
