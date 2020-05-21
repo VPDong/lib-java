@@ -14,6 +14,10 @@ public class TaskUtils {
 	private static volatile Handler M_BG_HANDLER;
 	private static volatile Handler M_UI_HANDLER;
 	
+	public static boolean isMainUIThread() {
+		return (Looper.myLooper() == Looper.getMainLooper());
+	}
+	
 	public static void postBg(Runnable runnable) {
 		if (runnable == null) return;
 		M_BG_HANDLER.post(runnable);

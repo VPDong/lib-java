@@ -2,6 +2,8 @@ package com.google.library.android.mvp.view;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -110,6 +112,13 @@ public abstract class MVPActivity<P extends MVPPresenter> extends AppCompatActiv
 	@Override
 	public void showErr(String msg) {
 		showMsg(msg);
+	}
+	
+	protected void setWindowStatus() {
+		//去除标题栏
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//去除状态栏
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	}
 	
 	protected class PagerAdapter extends FragmentPagerAdapter {
