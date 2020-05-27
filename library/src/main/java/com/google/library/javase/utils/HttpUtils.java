@@ -13,6 +13,10 @@ import java.util.Locale;
 import java.util.Map;
 
 public class HttpUtils {
+    static {// 设置可以修改头部的HOST值
+        System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
+    }
+
     private HttpUtils() throws Exception {
         throw new IllegalAccessException("can not to init instance for http utils");
     }
